@@ -317,20 +317,20 @@ const CFG = {
   /* quests: days 1=пн … 7=вс. from/to — даты действия (необязательно). phases — список фаз. gym:true — только в дни зала, nogym:true — только без зала */
   quests:[
         {id:'d0-taleb', track:'PSY', title:'Талеб «Одураченные случайностью» — глава 1', min:40, days:[1,2,3,4,5,6,7], phases:['day0'], meta:'аудиокнига · вслушиваться · 1 строка «что узнал»'},
-    {id:'d0-stepik', track:'STA', title:'Stepik статистика — закончить главу 1', min:40, days:[1,2,3,4,5,6,7], phases:['day0'], url:'https://stepik.org/learn', meta:'открыть и нажать play · до конца главы'},
+    {id:'d0-stepik', noNote:true, track:'STA', title:'Stepik статистика — закончить главу 1', min:40, days:[1,2,3,4,5,6,7], phases:['day0'], url:'https://stepik.org/learn', meta:'открыть и нажать play · до конца главы'},
     {id:'pm', track:'PROD', title:'Постмортем вчера + 1 гипотеза на сегодня', min:10, days:[1,2,3,4,5], phases:['ramp','sem1','sem2','sem3','sem4'], url:'{tracker}', meta:'на работе · 3 строки в трекер'},
     {id:'eng1', track:'ENG', title:'ielts.gg — открыть, взять что даёт', min:30, days:[1,2,3,4,5], phases:['ramp','sem1'], url:'https://ielts.gg', meta:'одно действие: открыть, дальше само'},
     {id:'eng1b', track:'ENG', title:'Говорение: 3-мин голосовая на EN о дне/продукте + разбор с AI', min:30, days:[1,2,3,4,5], phases:['sem2','sem3','sem4'], url:'', meta:'после IELTS слот → говорение'},
-    {id:'stat0', track:'STA', title:'Stepik статистика — открыть, нажать play', min:30, days:[1,2,3,4,5], phases:['ramp'], url:'https://stepik.org/learn', meta:'финиш ~5 сен'},
-    {id:'sql1', track:'DATA', title:'SQL: Stepik тренажёр — play', min:45, days:[1,2,3,4,5], phases:['sem1'], to:'2026-10-18', url:'https://stepik.org/course/63054', meta:'22 урока · финиш ~18 окт'},
-    {id:'sql2', track:'DATA', title:'SQL: Mode tutorial — intermediate → window functions', min:45, days:[1,2,3,4,5], phases:['sem1'], from:'2026-10-19', url:'https://mode.com/sql-tutorial/', meta:'EN-терминология · когорты к ноябрю'},
-    {id:'py1', track:'DATA', title:'Python: Kaggle Learn (Python → Pandas)', min:45, days:[1,2,3,4,5], phases:['sem2'], url:'https://www.kaggle.com/learn', meta:'в браузере, ничего не ставить'},
-    {id:'da3', track:'DATA', title:'Аналитика: когорты/LTV по своим данным (или Kaggle-датасет)', min:45, days:[1,2,3,4,5], phases:['sem3','sem4'], url:'https://www.kaggle.com/datasets', meta:'руками, не курс'},
+    {id:'stat0', noNote:true, track:'STA', title:'Stepik статистика — открыть, нажать play', min:30, days:[1,2,3,4,5], phases:['ramp'], url:'https://stepik.org/learn', meta:'финиш ~5 сен'},
+    {id:'sql1', noNote:true, track:'DATA', title:'SQL: Stepik тренажёр — play', min:45, days:[1,2,3,4,5], phases:['sem1'], to:'2026-10-18', url:'https://stepik.org/course/63054', meta:'22 урока · финиш ~18 окт'},
+    {id:'sql2', noNote:true, track:'DATA', title:'SQL: Mode tutorial — intermediate → window functions', min:45, days:[1,2,3,4,5], phases:['sem1'], from:'2026-10-19', url:'https://mode.com/sql-tutorial/', meta:'EN-терминология · когорты к ноябрю'},
+    {id:'py1', noNote:true, track:'DATA', title:'Python: Kaggle Learn (Python → Pandas)', min:45, days:[1,2,3,4,5], phases:['sem2'], url:'https://www.kaggle.com/learn', meta:'в браузере, ничего не ставить'},
+    {id:'da3', noNote:true, track:'DATA', title:'Аналитика: когорты/LTV по своим данным (или Kaggle-датасет)', min:45, days:[1,2,3,4,5], phases:['sem3','sem4'], url:'https://www.kaggle.com/datasets', meta:'руками, не курс'},
     {id:'eng2', track:'ENG', title:'Аудирование + shadowing: BBC 6 Minute English', min:20, days:[1,2,3,4,5], phases:['ramp','sem1','sem2','sem3','sem4'], url:'https://www.bbc.co.uk/learningenglish/english/features/6-minute-english', meta:'1 эпизод с транскриптом · повторяй вслух'},
     {id:'rot-tue', track:'PROD', title:'Продукт: Lenny / Cagan — 1 материал + строка «как применить»', min:45, days:[2], phases:['sem1','sem2'], url:'https://www.lennysnewsletter.com/archive?sort=top', meta:'teardown-мышление'},
     {id:'rot-tue3', track:'PROD', title:'Продукт: Reforge / Balfour / Amplitude Academy', min:45, days:[2], phases:['sem3','sem4'], url:'https://www.reforge.com/blog', meta:'loops, retention, PLG'},
     {id:'rot-thu', track:'STA', title:'A/B: Udacity ud257 — 1 урок + применить к своим тестам', min:45, days:[4], phases:['sem1'], url:'https://www.udacity.com/course/ab-testing--ud257', meta:'sample size · MDE · когда убивать креатив'},
-    {id:'rot-thu2', track:'DATA', title:'DATA-капстоун: запросы по своим кампаниям', min:45, days:[4], phases:['sem2','sem3','sem4'], url:'https://mode.com/sql-tutorial/', meta:'или public dataset'},
+    {id:'rot-thu2', noNote:true, track:'DATA', title:'DATA-капстоун: запросы по своим кампаниям', min:45, days:[4], phases:['sem2','sem3','sem4'], url:'https://mode.com/sql-tutorial/', meta:'или public dataset'},
     {id:'out', track:'ENG', title:'1 пост EN в LinkedIn (из постмортемов недели)', min:30, days:[5], phases:['sem1','sem2','sem3','sem4'], from:'2026-10-02', url:'https://www.linkedin.com/', meta:'5–8 предложений · без серых деталей'},
     {id:'sat-eng', track:'ENG', title:'EN суббота: ielts.gg / говорение', min:20, days:[6], phases:['sem1','sem2','sem3','sem4'], url:'https://ielts.gg', meta:'коротко'},
     {id:'sat-deep', track:'DATA', title:'Глубокий блок: капстоун семестра руками', min:120, days:[6], phases:['sem1','sem2','sem3','sem4'], url:'', meta:'SQL по CSV / STAT на своих тестах / teardown'},
@@ -489,7 +489,7 @@ function renderQuests(D){
         <button class="btn ghost" data-act="timer" data-id="${q.id}"><span class="timer ${tm?'run':''}" id="tm-${q.id}">${mmss}</span></button>
         ${r.done?'':`<button class="btn ok sm" data-act="done" data-id="${q.id}">Готово</button>`}
       </div>
-      <div class="note"><input data-act="note" data-id="${q.id}" placeholder="1 строка: что понял / как применить" value="${(r.note||'').replace(/"/g,'&quot;')}"></div>`}
+      ${q.noNote?'':`<div class="note"><input data-act="note" data-id="${q.id}" placeholder="1 строка: что понял / как применить" value="${(r.note||'').replace(/"/g,'&quot;')}"></div>`}`}
     `;
     host.appendChild(el);
   });
