@@ -93,26 +93,36 @@ h1{font-size:22px} h2{font-size:17px} h3{font-size:15px}
 .bar .t i{display:block;height:100%;background:var(--tc);border-radius:999px;transition:width .3s}
 .bar .v{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
 
-/* FUT card */
-.fut{position:relative;border-radius:22px;padding:22px 18px 18px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
-.fut.bronze{background:linear-gradient(160deg,#5a3a22,#2b1b10 55%,#1a120b)}
-.fut.silver{background:linear-gradient(160deg,#8d97a8,#3c4553 55%,#222833)}
-.fut.gold{background:linear-gradient(160deg,#f3c554,#9a6d10 55%,#4c3608)}
-.fut.icon{background:linear-gradient(160deg,#f7f0d8,#cbbf9a 45%,#7d7560 100%)}
-.fut.icon,.fut.icon .muted{color:#1d1a12}
-.fut .shine{position:absolute;inset:-40% -20% auto;height:70%;background:radial-gradient(ellipse at 30% 30%,rgba(255,255,255,.22),transparent 60%);pointer-events:none}
-.fut .rating{font-family:var(--font-d);font-size:64px;line-height:.9}
-.fut .tier{font-family:var(--font-d);font-size:13px;letter-spacing:.18em;text-transform:uppercase;opacity:.85;margin-top:6px}
-.fut .name{font-family:var(--font-d);font-size:22px;text-align:center;margin:12px 0 4px;letter-spacing:.04em}
-.fut .role{font-size:12px;text-align:center;opacity:.8;letter-spacing:.08em;text-transform:uppercase}
-.fut .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 14px;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.14)}
-.fut .st{display:flex;align-items:baseline;gap:8px}
-.fut .st b{font-family:var(--font-d);font-size:22px;font-weight:400}
-.fut .st span{font-size:11px;letter-spacing:.14em;opacity:.8}
-.fut .foot{display:flex;justify-content:space-between;margin-top:14px;font-size:12px;opacity:.85}
-.fut .dis{position:absolute;right:18px;top:20px;text-align:right}
-.fut .dis b{font-family:var(--font-d);font-size:28px;display:block;line-height:1}
-.fut .dis span{font-size:10px;letter-spacing:.14em}
+/* stat card */
+.fut{position:relative;border-radius:20px;padding:20px 18px 18px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(180deg,var(--surface-2),var(--surface))}
+.fut .edge{position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--tier-c,var(--gold))}
+.fut .hd{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+.fut .avatar{width:66px;height:66px;border-radius:16px;flex:none;overflow:hidden;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.14),transparent 60%),var(--surface-2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center}
+.fut .avatar img{width:100%;height:100%;object-fit:cover}
+.fut .avatar .ph{font-family:var(--font-d);font-size:26px;color:var(--tier-c,var(--gold))}
+.fut .hd .who{flex:1;min-width:0}
+.fut .name{font-family:var(--font-d);font-size:22px;letter-spacing:.04em;line-height:1.05}
+.fut .role{font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:3px}
+.fut .rate{text-align:center;flex:none}
+.fut .rate b{font-family:var(--font-d);font-size:40px;line-height:.9;color:var(--tier-c,var(--gold))}
+.fut .rate span{display:block;font-size:10px;letter-spacing:.16em;color:var(--muted);margin-top:2px}
+.fut .tierrow{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;padding:8px 0 14px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.fut .tierrow b{color:var(--tier-c,var(--gold));font-family:var(--font-d);font-weight:400;letter-spacing:.14em}
+.statrow{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:baseline;margin-bottom:12px}
+.statrow .lbl{font-size:14px;font-weight:700;color:var(--text)}
+.statrow .num{font-family:var(--font-d);font-size:17px;color:var(--sc)}
+.statrow .delta{font-size:11px;color:var(--muted);margin-left:5px}
+.statrow .delta.up{color:var(--teal)} .statrow .delta.down{color:var(--red)}
+.statrow .track2{grid-column:1/3;height:9px;border-radius:999px;background:var(--surface-2);overflow:hidden;position:relative;margin-top:3px}
+.statrow .track2 i{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:linear-gradient(90deg,color-mix(in srgb,var(--sc) 55%,transparent),var(--sc));transition:width .5s}
+.fut .disblock{margin-top:6px;padding:14px;border-radius:14px;background:rgba(242,179,61,.08);border:1px solid rgba(242,179,61,.25)}
+.fut .disblock .top{display:flex;justify-content:space-between;align-items:baseline}
+.fut .disblock .top b{font-family:var(--font-d);font-size:26px;color:var(--gold)}
+.fut .disblock .top .l{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--gold)}
+.fut .disblock .track2{height:9px;border-radius:999px;background:rgba(0,0,0,.25);overflow:hidden;margin-top:8px;position:relative}
+.fut .disblock .track2 i{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:linear-gradient(90deg,var(--gold-2),var(--gold));transition:width .5s}
+.fut .disblock .exp{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.4}
+.fut .foot{display:flex;justify-content:space-between;margin-top:14px;font-size:12px;color:var(--muted)}
 .tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px;font-size:11px;text-align:center}
 .tiers div{padding:8px 4px;border-radius:8px;background:var(--surface-2);border:1px solid var(--line);color:var(--muted)}
 .tiers div.cur{border-color:var(--gold);color:var(--gold)}
@@ -202,7 +212,7 @@ textarea.export{min-height:180px;font-size:12px;font-family:ui-monospace,Menlo,m
         <b style="color:var(--text)">День закрыт</b> = 2 сессии. Закрытый день продлевает стрик. Вс — свободно.<br>
         <b style="color:var(--text)">Пропуск</b> (пн–сб): стрик сгорает, Дисциплина −3. Одна заморозка в неделю применяется сама — первый пропуск недели не считается. Две подряд — считаются.<br>
         <b style="color:var(--text)">Идеальная неделя</b> (6 из 6 закрыто): Дисциплина +1.<br>
-        <b style="color:var(--text)">Статы</b> растут от сессий, каждый трек со своей скоростью. Рейтинг = средний стат ×0.8 + Дисциплина ×0.2.<br>
+        <b style="color:var(--text)">Статы</b> растут от сессий, каждый трек со своей скоростью. Полоса залита от 50 до 99. <b style="color:var(--text)">Дисциплина</b> — множитель ко всем статам: 70 нейтрально, выше тянет вверх (до +5%), ниже — вниз. Рейтинг = средний стат ×0.82 + Дисциплина ×0.18.<br>
         Награды за тиры впиши сам в настройках — заранее и конкретно.
       </div>
     </div>
@@ -218,6 +228,7 @@ textarea.export{min-height:180px;font-size:12px;font-family:ui-monospace,Menlo,m
 
     <div class="card">
       <div class="field"><label>Имя на карточке</label><input id="sName" placeholder="TONY"></div>
+      <div class="field"><label>Аватар на карточке (имя файла в репо или URL)</label><input id="sAvatar" placeholder="avatar.png"><div class="hint" style="font-size:12px;color:var(--dim);margin-top:6px">Загрузи картинку в репо (Add file → Upload) и впиши имя, напр. avatar.png. Пусто — буква.</div></div>
       <div class="field"><label>Текущая аудиокнига (для квеста «Аудио»)</label><input id="sBook" placeholder="Талеб — Одураченные случайностью"></div>
       <div class="field"><label>Ссылка на трекер постмортемов (Notion)</label><input id="sTracker" placeholder="https://notion.so/..."></div>
       <div class="field"><label>Дни зала</label>
@@ -316,8 +327,9 @@ const CFG = {
   },
   /* quests: days 1=пн … 7=вс. from/to — даты действия (необязательно). phases — список фаз. gym:true — только в дни зала, nogym:true — только без зала */
   quests:[
+    {id:'ielts-place', track:'ENG', title:'IELTS placement на ielts.gg → записать свой band', min:40, days:[1,2,3,4,5,6], phases:['ramp'], to:'2026-08-22', url:'https://ielts.gg', meta:'пройти весь тест, записать L/R/W/S + overall — это стартовый уровень'},
         {id:'d0-taleb', track:'PSY', title:'Талеб «Одураченные случайностью» — глава 1', min:40, days:[1,2,3,4,5,6,7], phases:['day0'], meta:'аудиокнига · вслушиваться · 1 строка «что узнал»'},
-    {id:'d0-stepik', noNote:true, track:'STA', title:'Stepik статистика — закончить главу 1', min:40, days:[1,2,3,4,5,6,7], phases:['day0'], url:'https://stepik.org/learn', meta:'открыть и нажать play · до конца главы'},
+    {id:'d0-stepik', noNote:true, track:'STA', title:'Stepik «Основы статистики»: закрыть тему ЦПТ', min:40, days:[1,2,3,4,5,6,7], phases:['day0'], url:'https://stepik.org/lesson/8077/step/1?unit=1357', meta:'дойти до конца Центральной предельной теоремы + начать след. тему'},
     {id:'pm', track:'PROD', title:'Постмортем вчера + 1 гипотеза на сегодня', min:10, days:[1,2,3,4,5], phases:['ramp','sem1','sem2','sem3','sem4'], url:'{tracker}', meta:'на работе · 3 строки в трекер'},
     {id:'eng1', track:'ENG', title:'ielts.gg — открыть, взять что даёт', min:30, days:[1,2,3,4,5], phases:['ramp','sem1'], url:'https://ielts.gg', meta:'одно действие: открыть, дальше само'},
     {id:'eng1b', track:'ENG', title:'Говорение: 3-мин голосовая на EN о дне/продукте + разбор с AI', min:30, days:[1,2,3,4,5], phases:['sem2','sem3','sem4'], url:'', meta:'после IELTS слот → говорение'},
@@ -427,9 +439,12 @@ function derive(){
     if(weekEnd<today && considered>0 && closedCount===considered) perfectWeeks++;
   });
   const dis=Math.max(0,Math.min(99,CFG.disBase-3*unfrozenMiss+perfectWeeks));
-  const stats={}; Object.keys(sess).forEach(k=>stats[k]=Math.min(99,Math.round(CFG.base+sess[k]*CFG.gain[k])));
+  // discipline modulates every stat: at DIS 70 = neutral, 99 = +5%, low DIS drags down (up to -8% near 0)
+  const disMul=1+(dis-70)/(dis>=70?580:380);
+  const rawStats={}, stats={};
+  Object.keys(sess).forEach(k=>{ const raw=CFG.base+sess[k]*CFG.gain[k]; rawStats[k]=Math.min(99,Math.round(raw)); stats[k]=Math.max(1,Math.min(99,Math.round(raw*disMul))); });
   const avg=Object.values(stats).reduce((a,b)=>a+b,0)/6;
-  const rating=Math.round(avg*0.8+dis*0.2);
+  const rating=Math.round(avg*0.82+dis*0.18);
   // streak: walk back from today
   let streak=0; let d=today;
   const stToday=dayStatus(today,today);
@@ -441,7 +456,7 @@ function derive(){
     d=addDays(d,-1);
   }
   const tier=[...CFG.tiers].reverse().find(t=>rating>=t.min);
-  return {today,sess,stats,dis,rating,streak,frozen,tier,unfrozenMiss,perfectWeeks};
+  return {today,sess,stats,rawStats,disMul,dis,rating,streak,frozen,tier,unfrozenMiss,perfectWeeks};
 }
 
 /* ==========================================================
@@ -533,16 +548,37 @@ function renderWeek(D,weekStart){
    ========================================================== */
 function renderCard(D){
   const tier=D.tier; const host=$('#futCard');
-  const st=D.stats;
-  host.innerHTML=`<div class="fut ${tier.c}"><div class="shine"></div>
-    <div class="rating">${D.rating}</div><div class="tier">${tier.n}</div>
-    <div class="dis"><b>${D.dis}</b><span>DIS</span></div>
-    <div class="name">${(S.settings.name||'TONY').toUpperCase()}</div>
-    <div class="role">Growth PM · маршрут А</div>
-    <div class="grid">
-      ${['ENG','DATA','STA','PROD','PSY','PHY'].map(k=>`<div class="st"><b>${st[k]}</b><span>${k}</span></div>`).join('')}
+  const st=D.stats, raw=D.rawStats;
+  const tierColor={bronze:'#C98A4B',silver:'#C7CED8',gold:'#F2B33D',icon:'#EBE3C6'}[tier.c]||'var(--gold)';
+  const names={ENG:'Английский',DATA:'SQL / Python',STA:'Статистика',PROD:'Продукт',PSY:'Психология',PHY:'Физика'};
+  const fill=v=>Math.max(2,Math.min(100,Math.round((v-50)/49*100))); // 50→99 maps to 0→100%
+  const next=CFG.tiers.find(t=>t.min>D.rating);
+  const rows=['ENG','DATA','STA','PROD','PSY','PHY'].map(k=>{
+    const c=CFG.tracks[k].color; const d=st[k]-raw[k];
+    const dtxt=d>0?`<span class="delta up">+${d}</span>`:d<0?`<span class="delta down">${d}</span>`:'';
+    return `<div class="statrow" style="--sc:${c}">
+      <div class="lbl">${names[k]}</div>
+      <div class="num">${st[k]}${dtxt}</div>
+      <div class="track2"><i style="width:${fill(st[k])}%"></i></div>
+    </div>`;}).join('');
+  const disPct=Math.max(2,Math.min(100,Math.round(D.dis)));
+  const mulTxt=D.disMul>=1?`+${Math.round((D.disMul-1)*100)}% ко всем статам`:`${Math.round((D.disMul-1)*100)}% ко всем статам`;
+  const av=S.settings.avatar;
+  host.innerHTML=`<div class="fut ${tier.c}" style="--tier-c:${tierColor}">
+    <div class="edge"></div>
+    <div class="hd">
+      <div class="avatar">${av?`<img src="${av}" alt="">`:`<span class="ph">${(S.settings.name||'T')[0].toUpperCase()}</span>`}</div>
+      <div class="who"><div class="name">${(S.settings.name||'TONY').toUpperCase()}</div><div class="role">Growth PM · маршрут А</div></div>
+      <div class="rate"><b>${D.rating}</b><span>OVR</span></div>
     </div>
-    <div class="foot"><span>🔥 стрик ${D.streak}</span><span>сессий: ${Object.values(D.sess).reduce((a,b)=>a+b,0)}</span><span>пропусков: ${D.unfrozenMiss}</span></div>
+    <div class="tierrow"><b>${tier.n}</b><span>${next?`до ${next.n}: ${next.min-D.rating}`:'макс тир'} · 🔥${D.streak}</span></div>
+    ${rows}
+    <div class="disblock">
+      <div class="top"><span class="l">Дисциплина</span><b>${D.dis}</b></div>
+      <div class="track2"><i style="width:${disPct}%"></i></div>
+      <div class="exp">Держит остальные статы: сейчас ${mulTxt}. Растёт за идеальные недели, падает за пропуски. 70 — нейтрально.</div>
+    </div>
+    <div class="foot"><span>сессий: ${Object.values(D.sess).reduce((a,b)=>a+b,0)}</span><span>пропусков: ${D.unfrozenMiss}</span></div>
   </div>`;
   const tiers=$('#tiers'); tiers.innerHTML=CFG.tiers.map(tr=>`<div class="${tr.c===tier.c?'cur':''}">${tr.n}<br><b>${tr.min||'—'}</b></div>`).join('');
   const ph=phaseOf(D.today); const box=$('#semesterBox');
@@ -620,12 +656,12 @@ async function sync(silent){
    SETTINGS UI
    ========================================================== */
 function renderSettings(){
-  $('#sName').value=S.settings.name||''; $('#sBook').value=S.settings.book||''; $('#sTracker').value=S.settings.tracker||'';
+  $('#sName').value=S.settings.name||''; $('#sAvatar').value=S.settings.avatar||''; $('#sBook').value=S.settings.book||''; $('#sTracker').value=S.settings.tracker||'';
   $('#sRewards').value=S.settings.rewards||''; $('#sGist').value=S.settings.gistId||''; $('#sToken').value=token();
   const gd=$('#gymDays'); gd.innerHTML='';
   for(let i=1;i<=6;i++){ const b=document.createElement('button'); b.className='btn sm '+(S.settings.gym.includes(i)?'primary':''); b.textContent=RU_D[i]; b.dataset.day=i; b.onclick=()=>{ const s=new Set(S.settings.gym); s.has(i)?s.delete(i):s.add(i); S.settings.gym=[...s].sort(); renderSettings(); }; gd.appendChild(b); }
 }
-$('#btnSaveSettings').onclick=()=>{ S.settings.name=$('#sName').value.trim()||'TONY'; S.settings.book=$('#sBook').value.trim(); S.settings.tracker=$('#sTracker').value.trim(); S.settings.rewards=$('#sRewards').value; save(); renderAll(); toast('Сохранено'); };
+$('#btnSaveSettings').onclick=()=>{ S.settings.name=$('#sName').value.trim()||'TONY'; S.settings.avatar=$('#sAvatar').value.trim(); S.settings.book=$('#sBook').value.trim(); S.settings.tracker=$('#sTracker').value.trim(); S.settings.rewards=$('#sRewards').value; save(); renderAll(); toast('Сохранено'); };
 $('#btnSyncNow').onclick=()=>{ const tk=$('#sToken').value.trim(); if(tk) localStorage.setItem(LS_TOKEN,tk); const gid=$('#sGist').value.trim(); S.settings.gistId=gid; save(false); sync(false); };
 $('#btnCopyGist').onclick=()=>copy(S.settings.gistId||'', 'Gist ID скопирован');
 $('#btnExport').onclick=()=>{ const t=exportWeek(false); $('#exportBox').style.display='block'; $('#exportBox').value=t; copy(t,'Отчёт скопирован'); };
