@@ -281,9 +281,10 @@ textarea.export{min-height:180px;font-size:12px;font-family:ui-monospace,Menlo,m
    CONFIG — расписание университета. Правишь тут.
    ========================================================== */
 const CFG = {
-  start: '2026-08-24',
+  start: '2026-08-19',
   phases: [
-    {id:'ramp', label:'Рамп · 60%',            from:'2026-08-24', to:'2026-09-06'},
+    {id:'day0', label:'День 0 · старт',        from:'2026-08-19', to:'2026-08-19'},
+    {id:'ramp', label:'Рамп · 60%',            from:'2026-08-20', to:'2026-09-06'},
     {id:'sem1', label:'Семестр 1 · фундамент',  from:'2026-09-07', to:'2026-11-29'},
     {id:'sem2', label:'Семестр 2 · аналитика',  from:'2026-11-30', to:'2027-02-28'},
     {id:'sem3', label:'Семестр 3 · синтез',     from:'2027-03-01', to:'2027-05-30'},
@@ -301,6 +302,7 @@ const CFG = {
   gain:{ENG:.15, DATA:.3, STA:.4, PROD:.35, PSY:.5, PHY:.3},
   tiers:[{n:'Бронза',min:0,c:'bronze'},{n:'Серебро',min:65,c:'silver'},{n:'Золото',min:75,c:'gold'},{n:'Icon',min:85,c:'icon'}],
   semesterGoals:{
+    day0:['Сегодня две сессии: Талеб гл. 1 + Stepik гл. 1. Завтра — рамп.'],
     ramp:['Высидеть сессии, не выучить. 4 квеста в будни, без ротации и субботы.','Stepik-статистика закрыт к 5 сен.'],
     sem1:['SQL: Stepik 63054 → Mode SQL → capstone (когорты/LTV/CAC payback) на публичном датасете','EN: ielts.gg ежедневно + аудирование; IELTS — решить дату (ноябрь как прогон или январь как ставка)','STA: Udacity A/B → правило «когда убивать креатив» на своих объёмах','PROD: задачи в интеграцию ставлю в формате PRD (гипотеза → метрика → результат); 1 teardown онбординга','Работа: первая плюсовая связка до 30.09; 3 к декабрю'],
     sem2:['DATA: Kaggle Python + pandas → ноутбук по своим кампаниям','EN: IELTS mock 6.0+; затем слот → говорение про продукт','PROD: первый write-up эксперимента на преленде с цифрами; ICE/RICE','Январь: запрос на мидл / % после 3 мес плюса'],
@@ -309,6 +311,8 @@ const CFG = {
   },
   /* quests: days 1=пн … 7=вс. from/to — даты действия (необязательно). phases — список фаз. gym:true — только в дни зала, nogym:true — только без зала */
   quests:[
+    {id:'d0-taleb', track:'PSY', title:'Талеб «Одураченные случайностью» — глава 1', min:40, days:[1,2,3,4,5,6,7], phases:['day0'], url:'https://www.litres.ru/', meta:'аудио · зал/дорога · 1 строка «что узнал»'},
+    {id:'d0-stepik', track:'STA', title:'Stepik статистика — закончить главу 1', min:40, days:[1,2,3,4,5,6,7], phases:['day0'], url:'https://stepik.org/learn', meta:'открыть и нажать play · до конца главы'},
     {id:'pm', track:'PROD', title:'Постмортем вчера + 1 гипотеза на сегодня', min:10, days:[1,2,3,4,5], phases:['ramp','sem1','sem2','sem3','sem4'], url:'{tracker}', meta:'на работе · 3 строки в трекер'},
     {id:'eng1', track:'ENG', title:'ielts.gg — открыть, взять что даёт', min:30, days:[1,2,3,4,5], phases:['ramp','sem1'], url:'https://ielts.gg', meta:'одно действие: открыть, дальше само'},
     {id:'eng1b', track:'ENG', title:'Говорение: 3-мин голосовая на EN о дне/продукте + разбор с AI', min:30, days:[1,2,3,4,5], phases:['sem2','sem3','sem4'], url:'', meta:'после IELTS слот → говорение'},
@@ -456,7 +460,7 @@ function renderTop(D){
 function renderQuests(D){
   const t=D.today, qs=questsFor(t), rec=dayRec(t);
   const host=$('#questList'); host.innerHTML='';
-  if(!qs.length){host.innerHTML='<div class="empty">На сегодня квестов нет. Это либо воскресенье до 24 авг, либо ты вышел за план — открой настройки.</div>';return;}
+  if(!qs.length){host.innerHTML='<div class="empty">На сегодня квестов нет. Это либо воскресенье до 19 авг, либо ты вышел за план — открой настройки.</div>';return;}
   const order=q=>q.passive?1:0;
   [...qs].sort((a,b)=>order(a)-order(b)).forEach(q=>{
     const r=rec.q[q.id]||{}; const tc=CFG.tracks[q.track]?.color||'var(--muted)';
