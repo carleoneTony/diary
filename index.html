@@ -165,6 +165,11 @@ textarea.export{min-height:180px;font-size:12px;font-family:ui-monospace,Menlo,m
       <div id="questList"></div>
     </div>
 
+    <details class="sec" id="tomorrowSec">
+      <summary class="eyebrow" style="cursor:pointer;list-style:none">Завтра <span class="dim" id="tomorrowMeta"></span></summary>
+      <div id="tomorrowList" style="margin-top:8px"></div>
+    </details>
+
     <div class="sec">
       <div class="eyebrow">Неделя</div>
       <div class="card">
@@ -311,7 +316,7 @@ const CFG = {
   },
   /* quests: days 1=пн … 7=вс. from/to — даты действия (необязательно). phases — список фаз. gym:true — только в дни зала, nogym:true — только без зала */
   quests:[
-    {id:'d0-taleb', track:'PSY', title:'Талеб «Одураченные случайностью» — глава 1', min:40, days:[1,2,3,4,5,6,7], phases:['day0'], url:'https://www.litres.ru/', meta:'аудио · зал/дорога · 1 строка «что узнал»'},
+    {id:'d0-taleb', track:'PSY', title:'Талеб «Одураченные случайностью» — глава 1', min:40, days:[1,2,3,4,5,6,7], phases:['day0'], url:'litres://', openLabel:'Открыть ЛитРес', meta:'аудио · зал/дорога · 1 строка «что узнал»'},
     {id:'d0-stepik', track:'STA', title:'Stepik статистика — закончить главу 1', min:40, days:[1,2,3,4,5,6,7], phases:['day0'], url:'https://stepik.org/learn', meta:'открыть и нажать play · до конца главы'},
     {id:'pm', track:'PROD', title:'Постмортем вчера + 1 гипотеза на сегодня', min:10, days:[1,2,3,4,5], phases:['ramp','sem1','sem2','sem3','sem4'], url:'{tracker}', meta:'на работе · 3 строки в трекер'},
     {id:'eng1', track:'ENG', title:'ielts.gg — открыть, взять что даёт', min:30, days:[1,2,3,4,5], phases:['ramp','sem1'], url:'https://ielts.gg', meta:'одно действие: открыть, дальше само'},
@@ -329,7 +334,7 @@ const CFG = {
     {id:'out', track:'ENG', title:'1 пост EN в LinkedIn (из постмортемов недели)', min:30, days:[5], phases:['sem1','sem2','sem3','sem4'], from:'2026-10-02', url:'https://www.linkedin.com/', meta:'5–8 предложений · без серых деталей'},
     {id:'sat-eng', track:'ENG', title:'EN суббота: ielts.gg / говорение', min:20, days:[6], phases:['sem1','sem2','sem3','sem4'], url:'https://ielts.gg', meta:'коротко'},
     {id:'sat-deep', track:'DATA', title:'Глубокий блок: капстоун семестра руками', min:120, days:[6], phases:['sem1','sem2','sem3','sem4'], url:'', meta:'SQL по CSV / STAT на своих тестах / teardown'},
-    {id:'audio', track:'PSY', title:'Аудио в зале/дороге: {book}', min:0, days:[1,2,3,4,5,6], phases:['ramp','sem1','sem2','sem3','sem4'], passive:true, url:'', meta:'×1.25 · после мёртвого теста — строка «что узнал»'},
+    {id:'audio', track:'PSY', title:'Аудио в зале/дороге: {book}', min:0, days:[1,2,3,4,5,6], phases:['ramp','sem1','sem2','sem3','sem4'], passive:true, url:'litres://', openLabel:'Открыть ЛитРес', meta:'×1.25 · после мёртвого теста — строка «что узнал»'},
     {id:'gym', track:'PHY', title:'Зал', min:0, days:[1,2,3,4,5,6], phases:['ramp','sem1','sem2','sem3','sem4'], gym:true, passive:true, url:'', meta:'отметь по факту'},
     {id:'checkin', track:'', title:'Чек-ин: отчёт недели → Claude', min:30, days:[7], phases:['ramp','sem1','sem2','sem3','sem4'], url:'', meta:'строка в лог «Маршрут А» · не догонять, сдвигать'},
   ]
@@ -469,17 +474,20 @@ function renderQuests(D){
     const mmss=`${pad(Math.floor(left/60))}:${pad(left%60)}`;
     el.innerHTML=`
       <div class="head">
-        <button class="chk ${r.done?'on':''}" data-act="toggle" data-id="${q.id}" aria-label="высидел">${r.done?'✓':''}</button>
+        <button class="chk ${r.done?'on':''}" data-act="toggle" data-id="${q.id}" aria-label="готово">${r.done?'✓':''}</button>
         <div class="grow">
           <div class="track">${q.track||'ЧЕК-ИН'} ${q.min?`· ${q.min} мин`:''}</div>
           <div class="title">${q.title}</div>
           ${q.meta?`<div class="meta">${q.meta}</div>`:''}
         </div>
       </div>
-      ${q.passive?'':`<div class="acts">
-        ${q.url?`<a class="btn primary" href="${q.url}" target="_blank" rel="noopener" data-act="open" data-id="${q.id}">Открыть →</a>`:''}
+      ${q.passive?`<div class="acts">
+        ${q.url?`<a class="btn sm" href="${q.url}" data-act="open" data-id="${q.id}">${q.openLabel||'Открыть →'}</a>`:''}
+        ${r.done?'':`<button class="btn ok sm" data-act="done" data-id="${q.id}">Готово</button>`}
+      </div>`:`<div class="acts">
+        ${q.url?`<a class="btn primary" href="${q.url}" target="_blank" rel="noopener" data-act="open" data-id="${q.id}">${q.openLabel||'Открыть →'}</a>`:''}
         <button class="btn ghost" data-act="timer" data-id="${q.id}"><span class="timer ${tm?'run':''}" id="tm-${q.id}">${mmss}</span></button>
-        ${r.done?'':`<button class="btn ok sm" data-act="done" data-id="${q.id}">Высидел</button>`}
+        ${r.done?'':`<button class="btn ok sm" data-act="done" data-id="${q.id}">Готово</button>`}
       </div>
       <div class="note"><input data-act="note" data-id="${q.id}" placeholder="1 строка: что понял / как применить" value="${(r.note||'').replace(/"/g,'&quot;')}"></div>`}
     `;
@@ -494,7 +502,7 @@ function toggleTimer(id,min){
   timers[id]={end, iv:setInterval(()=>{
     const left=Math.max(0,Math.round((end-Date.now())/1000)); const el=$('#tm-'+id);
     if(el) el.textContent=`${pad(Math.floor(left/60))}:${pad(left%60)}`;
-    if(left<=0){clearInterval(timers[id].iv); delete timers[id]; beep(); toast('Время вышло — отметь «Высидел»'); renderAll();}
+    if(left<=0){clearInterval(timers[id].iv); delete timers[id]; beep(); toast('Время вышло — отметь «Готово»'); renderAll();}
   },500)};
   renderAll();
 }
@@ -640,7 +648,17 @@ document.addEventListener('change',e=>{ const i=e.target.closest('[data-act="not
 document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{ document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('on',x===b)); document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+b.dataset.v)); if(b.dataset.v==='settings') renderSettings(); window.scrollTo(0,0); });
 let toastT; function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('on'); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('on'),1800); }
 
-function renderAll(){ const D=derive(); renderTop(D); renderQuests(D); renderWeek(D); renderCard(D); }
+function renderTomorrow(D){
+  const t=addDays(D.today,1); const qs=questsFor(t);
+  const host=$('#tomorrowList'); const d=parse(t);
+  const gymDay=S.settings.gym.includes(dow(t));
+  const type=dow(t)===7?'чек-ин':dow(t)===6?'глубокий блок':gymDay?'день зала':'полная';
+  const mins=qs.reduce((a,q)=>a+q.min,0);
+  $('#tomorrowMeta').textContent=`${RU_D[dow(t)]}, ${d.getDate()} ${RU_M[d.getMonth()]} · ${type} · ~${mins} мин`;
+  if(!qs.length){host.innerHTML='<div class="small dim">Свободно.</div>';return;}
+  host.innerHTML=qs.map(q=>`<div class="row" style="padding:6px 0;border-bottom:1px solid var(--line)"><span class="track" style="color:${CFG.tracks[q.track]?.color||'var(--muted)'};min-width:44px;font-size:11px;font-weight:800">${q.track||'—'}</span><span class="grow small">${q.title.replace('{book}',S.settings.book||'книга')}</span>${q.min?`<span class="small dim">${q.min}м</span>`:''}</div>`).join('');
+}
+function renderAll(){ const D=derive(); renderTop(D); renderQuests(D); renderTomorrow(D); renderWeek(D); renderCard(D); }
 renderAll(); renderSettings();
 if(token()){ sync(true); } else setSync('', 'только это устройство');
 document.addEventListener('visibilitychange',()=>{ if(!document.hidden){ renderAll(); if(token()) sync(true); } });
