@@ -316,7 +316,7 @@ const CFG = {
   },
   /* quests: days 1=пн … 7=вс. from/to — даты действия (необязательно). phases — список фаз. gym:true — только в дни зала, nogym:true — только без зала */
   quests:[
-    {id:'d0-taleb', track:'PSY', title:'Талеб «Одураченные случайностью» — глава 1', min:40, days:[1,2,3,4,5,6,7], phases:['day0'], url:'', meta:'аудиокнига · слушать вдумчиво · 1 строка «что узнал»'},
+        {id:'d0-taleb', track:'PSY', title:'Талеб «Одураченные случайностью» — глава 1', min:40, days:[1,2,3,4,5,6,7], phases:['day0'], meta:'аудиокнига · вслушиваться · 1 строка «что узнал»'},
     {id:'d0-stepik', track:'STA', title:'Stepik статистика — закончить главу 1', min:40, days:[1,2,3,4,5,6,7], phases:['day0'], url:'https://stepik.org/learn', meta:'открыть и нажать play · до конца главы'},
     {id:'pm', track:'PROD', title:'Постмортем вчера + 1 гипотеза на сегодня', min:10, days:[1,2,3,4,5], phases:['ramp','sem1','sem2','sem3','sem4'], url:'{tracker}', meta:'на работе · 3 строки в трекер'},
     {id:'eng1', track:'ENG', title:'ielts.gg — открыть, взять что даёт', min:30, days:[1,2,3,4,5], phases:['ramp','sem1'], url:'https://ielts.gg', meta:'одно действие: открыть, дальше само'},
@@ -334,7 +334,7 @@ const CFG = {
     {id:'out', track:'ENG', title:'1 пост EN в LinkedIn (из постмортемов недели)', min:30, days:[5], phases:['sem1','sem2','sem3','sem4'], from:'2026-10-02', url:'https://www.linkedin.com/', meta:'5–8 предложений · без серых деталей'},
     {id:'sat-eng', track:'ENG', title:'EN суббота: ielts.gg / говорение', min:20, days:[6], phases:['sem1','sem2','sem3','sem4'], url:'https://ielts.gg', meta:'коротко'},
     {id:'sat-deep', track:'DATA', title:'Глубокий блок: капстоун семестра руками', min:120, days:[6], phases:['sem1','sem2','sem3','sem4'], url:'', meta:'SQL по CSV / STAT на своих тестах / teardown'},
-    {id:'audio', track:'PSY', title:'Аудиокнига: {book}', min:0, days:[1,2,3,4,5,6], phases:['ramp','sem1','sem2','sem3','sem4'], passive:true, url:'', meta:'слушать вдумчиво · 1 строка «что узнал» после сессии'},
+        {id:'audio', track:'PSY', title:'Аудиокнига: {book}', min:40, days:[1,2,3,4,5,6], phases:['ramp','sem1','sem2','sem3','sem4'], passive:true, meta:'вслушиваться, не фоном · 1 строка «что узнал»'},
     {id:'gym', track:'PHY', title:'Зал', min:0, days:[1,2,3,4,5,6], phases:['ramp','sem1','sem2','sem3','sem4'], gym:true, passive:true, url:'', meta:'отметь по факту'},
     {id:'checkin', track:'', title:'Чек-ин: отчёт недели → Claude', min:30, days:[7], phases:['ramp','sem1','sem2','sem3','sem4'], url:'', meta:'строка в лог «Маршрут А» · не догонять, сдвигать'},
   ]
