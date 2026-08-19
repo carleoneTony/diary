@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0F1420">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Квесты">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
+<title>Квесты · Маршрут А</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0F1420; --surface:#171D2B; --surface-2:#1F2636; --line:#2A3346;
+  --text:#E8ECF4; --muted:#8B94A8; --dim:#5C6578;
+  --gold:#F2B33D; --gold-2:#C98A12; --teal:#2ED3B7; --red:#F2634B;
+  --eng:#5AA9FF; --data:#2ED3B7; --sta:#C792F5; --prod:#F2B33D; --psy:#FF8FB1; --phy:#7ED957;
+  --r:14px; --pad:16px;
+  --font-d:'Russo One',system-ui,sans-serif; --font-b:'Manrope',system-ui,sans-serif;
+}
+*{box-sizing:border-box} html,body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-b);-webkit-font-smoothing:antialiased}
+body{padding:env(safe-area-inset-top) env(safe-area-inset-right) calc(72px + env(safe-area-inset-bottom)) env(safe-area-inset-left);min-height:100vh}
+a{color:inherit}
+button{font-family:inherit;color:inherit;border:0;background:none;cursor:pointer}
+input,textarea,select{font-family:inherit;color:var(--text);background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:15px;width:100%}
+input:focus,textarea:focus,button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.wrap{max-width:720px;margin:0 auto;padding:12px var(--pad) 0}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+h1,h2,h3{margin:0;font-family:var(--font-d);font-weight:400;letter-spacing:.01em}
+h1{font-size:22px} h2{font-size:17px} h3{font-size:15px}
+.muted{color:var(--muted)} .dim{color:var(--dim)} .small{font-size:13px}
+.row{display:flex;align-items:center;gap:10px} .between{justify-content:space-between} .wrapr{flex-wrap:wrap}
+.grow{flex:1}
+
+/* header */
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:8px 0 14px}
+.top .date{font-family:var(--font-d);font-size:26px;line-height:1}
+.top .sub{margin-top:6px;font-size:13px;color:var(--muted)}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);font-size:12px;font-weight:700;white-space:nowrap}
+.pill.gold{border-color:var(--gold-2);color:var(--gold)}
+.pill.red{border-color:#7a3a30;color:var(--red)}
+.statline{display:flex;gap:8px;flex-wrap:wrap}
+
+/* sections */
+.sec{margin:14px 0}
+.sec > .eyebrow{margin-bottom:8px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+
+/* quests */
+.quest{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 12px 10px;margin-bottom:10px;position:relative;overflow:hidden;transition:border-color .2s,opacity .2s}
+.quest::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--tc,var(--muted))}
+.quest.done{border-color:#2b4a44;opacity:.72}
+.quest.done .title{text-decoration:line-through;text-decoration-color:var(--muted)}
+.quest .head{display:flex;align-items:flex-start;gap:10px}
+.quest .track{font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--tc,var(--muted))}
+.quest .title{font-size:16px;font-weight:700;margin:3px 0 2px;line-height:1.25}
+.quest .meta{font-size:12px;color:var(--muted)}
+.quest .acts{display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 14px;border-radius:10px;font-weight:800;font-size:14px;background:var(--surface-2);border:1px solid var(--line);line-height:1;min-height:40px}
+.btn.primary{background:var(--gold);color:#17120a;border-color:var(--gold);text-decoration:none}
+.btn.ghost{background:transparent}
+.btn.ok{background:var(--teal);color:#062a24;border-color:var(--teal)}
+.btn.sm{padding:7px 10px;font-size:13px;min-height:32px}
+.btn:disabled{opacity:.45;cursor:default}
+.chk{width:44px;height:44px;border-radius:12px;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;flex:none;background:var(--surface-2);font-size:20px}
+.chk.on{border-color:var(--teal);background:rgba(46,211,183,.15);color:var(--teal)}
+.timer{font-family:var(--font-d);font-size:18px;min-width:64px;text-align:center;color:var(--text)}
+.timer.run{color:var(--gold)}
+.note{margin-top:8px}
+.note input{padding:8px 10px;font-size:14px;background:transparent;border-color:transparent;border-bottom:1px solid var(--line);border-radius:0}
+.note input:focus{border-color:var(--gold);outline:none}
+.passive .title{font-size:14px}
+
+/* week */
+.dots{display:flex;gap:8px;justify-content:space-between}
+.dot{flex:1;text-align:center}
+.dot .d{width:100%;aspect-ratio:1;max-width:44px;margin:0 auto;border-radius:10px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:13px;background:var(--surface-2);color:var(--muted)}
+.dot.closed .d{background:rgba(46,211,183,.18);border-color:var(--teal);color:var(--teal)}
+.dot.full .d{background:var(--teal);color:#062a24;border-color:var(--teal)}
+.dot.miss .d{background:rgba(242,99,75,.14);border-color:#7a3a30;color:var(--red)}
+.dot.frozen .d{background:rgba(90,169,255,.14);border-color:#2d5c8e;color:var(--eng)}
+.dot.today .d{box-shadow:0 0 0 2px var(--gold) inset}
+.dot .l{font-size:11px;color:var(--dim);margin-top:4px}
+.bars{display:grid;gap:8px;margin-top:10px}
+.bar{display:grid;grid-template-columns:56px 1fr 52px;align-items:center;gap:10px;font-size:13px}
+.bar .k{font-weight:800;letter-spacing:.1em;font-size:11px}
+.bar .t{height:8px;border-radius:999px;background:var(--surface-2);overflow:hidden}
+.bar .t i{display:block;height:100%;background:var(--tc);border-radius:999px;transition:width .3s}
+.bar .v{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* FUT card */
+.fut{position:relative;border-radius:22px;padding:22px 18px 18px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+.fut.bronze{background:linear-gradient(160deg,#5a3a22,#2b1b10 55%,#1a120b)}
+.fut.silver{background:linear-gradient(160deg,#8d97a8,#3c4553 55%,#222833)}
+.fut.gold{background:linear-gradient(160deg,#f3c554,#9a6d10 55%,#4c3608)}
+.fut.icon{background:linear-gradient(160deg,#f7f0d8,#cbbf9a 45%,#7d7560 100%)}
+.fut.icon,.fut.icon .muted{color:#1d1a12}
+.fut .shine{position:absolute;inset:-40% -20% auto;height:70%;background:radial-gradient(ellipse at 30% 30%,rgba(255,255,255,.22),transparent 60%);pointer-events:none}
+.fut .rating{font-family:var(--font-d);font-size:64px;line-height:.9}
+.fut .tier{font-family:var(--font-d);font-size:13px;letter-spacing:.18em;text-transform:uppercase;opacity:.85;margin-top:6px}
+.fut .name{font-family:var(--font-d);font-size:22px;text-align:center;margin:12px 0 4px;letter-spacing:.04em}
+.fut .role{font-size:12px;text-align:center;opacity:.8;letter-spacing:.08em;text-transform:uppercase}
+.fut .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 14px;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.14)}
+.fut .st{display:flex;align-items:baseline;gap:8px}
+.fut .st b{font-family:var(--font-d);font-size:22px;font-weight:400}
+.fut .st span{font-size:11px;letter-spacing:.14em;opacity:.8}
+.fut .foot{display:flex;justify-content:space-between;margin-top:14px;font-size:12px;opacity:.85}
+.fut .dis{position:absolute;right:18px;top:20px;text-align:right}
+.fut .dis b{font-family:var(--font-d);font-size:28px;display:block;line-height:1}
+.fut .dis span{font-size:10px;letter-spacing:.14em}
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px;font-size:11px;text-align:center}
+.tiers div{padding:8px 4px;border-radius:8px;background:var(--surface-2);border:1px solid var(--line);color:var(--muted)}
+.tiers div.cur{border-color:var(--gold);color:var(--gold)}
+
+/* nav */
+.nav{position:fixed;left:0;right:0;bottom:0;background:rgba(15,20,32,.92);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:8px var(--pad) calc(8px + env(safe-area-inset-bottom))}
+.nav .in{max-width:720px;margin:0 auto;display:flex;gap:6px}
+.nav button{flex:1;padding:10px 6px;border-radius:12px;font-weight:800;font-size:13px;color:var(--muted)}
+.nav button.on{background:var(--surface-2);color:var(--text)}
+.view{display:none} .view.on{display:block}
+
+/* settings */
+.field{margin-bottom:12px} .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:700}
+.field .hint{font-size:12px;color:var(--dim);margin-top:6px;line-height:1.45}
+details{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:10px;background:var(--surface)}
+summary{cursor:pointer;font-weight:700;font-size:14px}
+details p,details li{font-size:13px;color:var(--muted);line-height:1.5}
+code{font-size:12px;background:var(--surface-2);padding:2px 6px;border-radius:6px}
+.toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);background:var(--surface-2);border:1px solid var(--line);padding:10px 14px;border-radius:10px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:9}
+.toast.on{opacity:1}
+.empty{text-align:center;padding:30px 10px;color:var(--muted)}
+.syncdot{width:8px;height:8px;border-radius:50%;background:var(--dim);display:inline-block}
+.syncdot.ok{background:var(--teal)} .syncdot.err{background:var(--red)} .syncdot.busy{background:var(--gold)}
+textarea.export{min-height:180px;font-size:12px;font-family:ui-monospace,Menlo,monospace}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ===== QUESTS VIEW ===== -->
+  <section id="v-quests" class="view on">
+    <div class="top">
+      <div>
+        <div class="eyebrow" id="phaseLabel">—</div>
+        <div class="date" id="dateLabel">—</div>
+        <div class="sub" id="dayTypeLabel">—</div>
+      </div>
+      <div class="statline" style="justify-content:flex-end">
+        <span class="pill gold" id="streakPill">🔥 0</span>
+        <span class="pill" id="disPill">DIS —</span>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="row between">
+        <div class="eyebrow">Квесты дня <span class="dim" id="questCount"></span></div>
+        <div class="row small muted"><span class="syncdot" id="syncDot"></span><span id="syncLabel">офлайн</span></div>
+      </div>
+      <div id="questList"></div>
+    </div>
+
+    <div class="sec">
+      <div class="eyebrow">Неделя</div>
+      <div class="card">
+        <div class="dots" id="weekDots"></div>
+        <div class="bars" id="weekBars"></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="eyebrow">Воскресный чек-ин</div>
+      <div class="card">
+        <p class="small muted" style="margin:0 0 10px;line-height:1.5">Скопируй отчёт и кинь в Claude. Он скажет, где отстаёшь и что сдвинуть.</p>
+        <div class="row">
+          <button class="btn" id="btnExport">Скопировать отчёт недели</button>
+          <button class="btn ghost sm" id="btnExportPrev">прошлая неделя</button>
+        </div>
+        <textarea class="export" id="exportBox" style="display:none;margin-top:10px" readonly></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CARD VIEW ===== -->
+  <section id="v-card" class="view">
+    <div class="top"><div><div class="eyebrow">Скилл-карта</div><h1 id="cardHead">Маршрут А</h1></div></div>
+    <div id="futCard"></div>
+    <div class="tiers" id="tiers"></div>
+    <div class="sec">
+      <div class="eyebrow">Правила</div>
+      <div class="card small muted" style="line-height:1.6">
+        <b style="color:var(--text)">День закрыт</b> = 2 сессии. Закрытый день продлевает стрик. Вс — свободно.<br>
+        <b style="color:var(--text)">Пропуск</b> (пн–сб): стрик сгорает, Дисциплина −3. Одна заморозка в неделю применяется сама — первый пропуск недели не считается. Две подряд — считаются.<br>
+        <b style="color:var(--text)">Идеальная неделя</b> (6 из 6 закрыто): Дисциплина +1.<br>
+        <b style="color:var(--text)">Статы</b> растут от сессий, каждый трек со своей скоростью. Рейтинг = средний стат ×0.8 + Дисциплина ×0.2.<br>
+        Награды за тиры впиши сам в настройках — заранее и конкретно.
+      </div>
+    </div>
+    <div class="sec">
+      <div class="eyebrow">Семестр</div>
+      <div class="card" id="semesterBox"></div>
+    </div>
+  </section>
+
+  <!-- ===== SETTINGS VIEW ===== -->
+  <section id="v-settings" class="view">
+    <div class="top"><div><div class="eyebrow">Настройки</div><h1>Синк и правила</h1></div></div>
+
+    <div class="card">
+      <div class="field"><label>Имя на карточке</label><input id="sName" placeholder="TONY"></div>
+      <div class="field"><label>Текущая аудиокнига (для квеста «Аудио»)</label><input id="sBook" placeholder="Талеб — Одураченные случайностью"></div>
+      <div class="field"><label>Ссылка на трекер постмортемов (Notion)</label><input id="sTracker" placeholder="https://notion.so/..."></div>
+      <div class="field"><label>Дни зала</label>
+        <div class="row wrapr" id="gymDays"></div>
+      </div>
+      <div class="field"><label>Награды за тиры</label><textarea id="sRewards" rows="3" placeholder="Серебро 65 — ...&#10;Золото 75 — ...&#10;Icon 85 — ..."></textarea></div>
+      <button class="btn primary" id="btnSaveSettings">Сохранить</button>
+    </div>
+
+    <div class="card" style="margin-top:12px">
+      <h3 style="margin-bottom:8px">Синк ноут ↔ телефон (GitHub Gist)</h3>
+      <div class="field"><label>GitHub token (scope: gist)</label><input id="sToken" type="password" placeholder="github_pat_... или ghp_..."></div>
+      <div class="field"><label>Gist ID <span class="dim">(пусто — создать новый)</span></label><input id="sGist" placeholder="после первого синка появится сам"></div>
+      <div class="row wrapr">
+        <button class="btn primary" id="btnSyncNow">Синхронизировать</button>
+        <button class="btn ghost sm" id="btnCopyGist">скопировать Gist ID</button>
+      </div>
+      <div class="hint" style="margin-top:10px;font-size:12px;color:var(--dim);line-height:1.5">
+        Токен хранится только в этом браузере. Данные — в секретном Gist на твоём GitHub. На втором устройстве вставь тот же токен и Gist ID → «Синхронизировать». При расхождении сессии объединяются, не теряются.
+      </div>
+    </div>
+
+    <details><summary>Как поставить на телефон и получать пинг в 18:00</summary>
+      <ol>
+        <li>Открой сайт в Safari → Поделиться → «На экран Домой». Это нужно, иначе iOS не даст ни офлайна, ни уведомлений.</li>
+        <li>Уведомление: Команды (Shortcuts) → Автоматизация → «Время суток» 18:00, пн–сб → действие «Открыть URL» с адресом сайта. Это надёжнее web-push на iOS.</li>
+        <li>Зал (пн/ср/пт): второй пинг не нужен — открыл после зала, остаток квестов уже виден.</li>
+      </ol>
+    </details>
+
+    <details><summary>Как создать токен для синка</summary>
+      <ol>
+        <li>github.com → Settings → Developer settings → Personal access tokens → Fine-grained → Generate.</li>
+        <li>Permissions: Account permissions → Gists → Read and write. Срок — год.</li>
+        <li>Вставь сюда, нажми «Синхронизировать». Gist создастся сам. Скопируй Gist ID на второе устройство.</li>
+      </ol>
+    </details>
+
+    <details><summary>Правила статов (для тонкой настройки)</summary>
+      <p>Стат = база + сессии × шаг. База 55. Шаг: ENG 0.15 · DATA 0.3 · STA 0.4 · PROD 0.35 · PSY 0.5 · PHY 0.3. Дисциплина стартует с 70. Настроено так, чтобы при выполнении плана к лету 2027 выйти в Icon. Менять — в коде, блок <code>CFG.gain</code>.</p>
+    </details>
+
+    <div class="card" style="margin-top:12px">
+      <div class="row between">
+        <div><b>Бэкап</b><div class="small muted">JSON всего состояния</div></div>
+        <div class="row">
+          <button class="btn sm" id="btnBackup">Скопировать</button>
+          <button class="btn sm ghost" id="btnRestore">Вставить</button>
+        </div>
+      </div>
+      <textarea id="backupBox" class="export" style="display:none;margin-top:10px"></textarea>
+    </div>
+    <p class="small dim" style="text-align:center;margin:20px 0">Маршрут А · 2026–2027</p>
+  </section>
+</div>
+
+<nav class="nav"><div class="in">
+  <button data-v="quests" class="on">Квесты</button>
+  <button data-v="card">Карточка</button>
+  <button data-v="settings">Настройки</button>
+</div></nav>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ==========================================================
+   CONFIG — расписание университета. Правишь тут.
+   ========================================================== */
+const CFG = {
+  start: '2026-08-24',
+  phases: [
+    {id:'ramp', label:'Рамп · 60%',            from:'2026-08-24', to:'2026-09-06'},
+    {id:'sem1', label:'Семестр 1 · фундамент',  from:'2026-09-07', to:'2026-11-29'},
+    {id:'sem2', label:'Семестр 2 · аналитика',  from:'2026-11-30', to:'2027-02-28'},
+    {id:'sem3', label:'Семестр 3 · синтез',     from:'2027-03-01', to:'2027-05-30'},
+    {id:'sem4', label:'Семестр 4 · рынок',      from:'2027-05-31', to:'2027-08-29'},
+  ],
+  tracks: {
+    ENG:{name:'Английский', color:'var(--eng)'},
+    DATA:{name:'SQL / Python', color:'var(--data)'},
+    STA:{name:'Статистика', color:'var(--sta)'},
+    PROD:{name:'Продукт', color:'var(--prod)'},
+    PSY:{name:'Психология', color:'var(--psy)'},
+    PHY:{name:'Физика', color:'var(--phy)'},
+  },
+  base:55, disBase:70,
+  gain:{ENG:.15, DATA:.3, STA:.4, PROD:.35, PSY:.5, PHY:.3},
+  tiers:[{n:'Бронза',min:0,c:'bronze'},{n:'Серебро',min:65,c:'silver'},{n:'Золото',min:75,c:'gold'},{n:'Icon',min:85,c:'icon'}],
+  semesterGoals:{
+    ramp:['Высидеть сессии, не выучить. 4 квеста в будни, без ротации и субботы.','Stepik-статистика закрыт к 5 сен.'],
+    sem1:['SQL: Stepik 63054 → Mode SQL → capstone (когорты/LTV/CAC payback) на публичном датасете','EN: ielts.gg ежедневно + аудирование; IELTS — решить дату (ноябрь как прогон или январь как ставка)','STA: Udacity A/B → правило «когда убивать креатив» на своих объёмах','PROD: задачи в интеграцию ставлю в формате PRD (гипотеза → метрика → результат); 1 teardown онбординга','Работа: первая плюсовая связка до 30.09; 3 к декабрю'],
+    sem2:['DATA: Kaggle Python + pandas → ноутбук по своим кампаниям','EN: IELTS mock 6.0+; затем слот → говорение про продукт','PROD: первый write-up эксперимента на преленде с цифрами; ICE/RICE','Январь: запрос на мидл / % после 3 мес плюса'],
+    sem3:['PROD: end-to-end эксперимент, write-up на EN; Amplitude demo руками','DOMAIN: аккаунт Polymarket, 10 сделок, teardown онбординга на EN','OUT: 20-контактный target-list, 3 EN-поста','EN: первый мок PM-интервью'],
+    sem4:['Контрольная точка: $8k+, B1+ говорение, задокументированные эксперименты с инженерами, 3 публичных разбора','3 мока PM-интервью, 2 собеса «на разведку»'],
+  },
+  /* quests: days 1=пн … 7=вс. from/to — даты действия (необязательно). phases — список фаз. gym:true — только в дни зала, nogym:true — только без зала */
+  quests:[
+    {id:'pm', track:'PROD', title:'Постмортем вчера + 1 гипотеза на сегодня', min:10, days:[1,2,3,4,5], phases:['ramp','sem1','sem2','sem3','sem4'], url:'{tracker}', meta:'на работе · 3 строки в трекер'},
+    {id:'eng1', track:'ENG', title:'ielts.gg — открыть, взять что даёт', min:30, days:[1,2,3,4,5], phases:['ramp','sem1'], url:'https://ielts.gg', meta:'одно действие: открыть, дальше само'},
+    {id:'eng1b', track:'ENG', title:'Говорение: 3-мин голосовая на EN о дне/продукте + разбор с AI', min:30, days:[1,2,3,4,5], phases:['sem2','sem3','sem4'], url:'', meta:'после IELTS слот → говорение'},
+    {id:'stat0', track:'STA', title:'Stepik статистика — открыть, нажать play', min:30, days:[1,2,3,4,5], phases:['ramp'], url:'https://stepik.org/learn', meta:'финиш ~5 сен'},
+    {id:'sql1', track:'DATA', title:'SQL: Stepik тренажёр — play', min:45, days:[1,2,3,4,5], phases:['sem1'], to:'2026-10-18', url:'https://stepik.org/course/63054', meta:'22 урока · финиш ~18 окт'},
+    {id:'sql2', track:'DATA', title:'SQL: Mode tutorial — intermediate → window functions', min:45, days:[1,2,3,4,5], phases:['sem1'], from:'2026-10-19', url:'https://mode.com/sql-tutorial/', meta:'EN-терминология · когорты к ноябрю'},
+    {id:'py1', track:'DATA', title:'Python: Kaggle Learn (Python → Pandas)', min:45, days:[1,2,3,4,5], phases:['sem2'], url:'https://www.kaggle.com/learn', meta:'в браузере, ничего не ставить'},
+    {id:'da3', track:'DATA', title:'Аналитика: когорты/LTV по своим данным (или Kaggle-датасет)', min:45, days:[1,2,3,4,5], phases:['sem3','sem4'], url:'https://www.kaggle.com/datasets', meta:'руками, не курс'},
+    {id:'eng2', track:'ENG', title:'Аудирование + shadowing: BBC 6 Minute English', min:20, days:[1,2,3,4,5], phases:['ramp','sem1','sem2','sem3','sem4'], url:'https://www.bbc.co.uk/learningenglish/english/features/6-minute-english', meta:'1 эпизод с транскриптом · повторяй вслух'},
+    {id:'rot-tue', track:'PROD', title:'Продукт: Lenny / Cagan — 1 материал + строка «как применить»', min:45, days:[2], phases:['sem1','sem2'], url:'https://www.lennysnewsletter.com/archive?sort=top', meta:'teardown-мышление'},
+    {id:'rot-tue3', track:'PROD', title:'Продукт: Reforge / Balfour / Amplitude Academy', min:45, days:[2], phases:['sem3','sem4'], url:'https://www.reforge.com/blog', meta:'loops, retention, PLG'},
+    {id:'rot-thu', track:'STA', title:'A/B: Udacity ud257 — 1 урок + применить к своим тестам', min:45, days:[4], phases:['sem1'], url:'https://www.udacity.com/course/ab-testing--ud257', meta:'sample size · MDE · когда убивать креатив'},
+    {id:'rot-thu2', track:'DATA', title:'DATA-капстоун: запросы по своим кампаниям', min:45, days:[4], phases:['sem2','sem3','sem4'], url:'https://mode.com/sql-tutorial/', meta:'или public dataset'},
+    {id:'out', track:'ENG', title:'1 пост EN в LinkedIn (из постмортемов недели)', min:30, days:[5], phases:['sem1','sem2','sem3','sem4'], from:'2026-10-02', url:'https://www.linkedin.com/', meta:'5–8 предложений · без серых деталей'},
+    {id:'sat-eng', track:'ENG', title:'EN суббота: ielts.gg / говорение', min:20, days:[6], phases:['sem1','sem2','sem3','sem4'], url:'https://ielts.gg', meta:'коротко'},
+    {id:'sat-deep', track:'DATA', title:'Глубокий блок: капстоун семестра руками', min:120, days:[6], phases:['sem1','sem2','sem3','sem4'], url:'', meta:'SQL по CSV / STAT на своих тестах / teardown'},
+    {id:'audio', track:'PSY', title:'Аудио в зале/дороге: {book}', min:0, days:[1,2,3,4,5,6], phases:['ramp','sem1','sem2','sem3','sem4'], passive:true, url:'', meta:'×1.25 · после мёртвого теста — строка «что узнал»'},
+    {id:'gym', track:'PHY', title:'Зал', min:0, days:[1,2,3,4,5,6], phases:['ramp','sem1','sem2','sem3','sem4'], gym:true, passive:true, url:'', meta:'отметь по факту'},
+    {id:'checkin', track:'', title:'Чек-ин: отчёт недели → Claude', min:30, days:[7], phases:['ramp','sem1','sem2','sem3','sem4'], url:'', meta:'строка в лог «Маршрут А» · не догонять, сдвигать'},
+  ]
+};
+
+/* ==========================================================
+   STATE
+   ========================================================== */
+const LS_KEY='quests_state_v1', LS_TOKEN='quests_gh_token';
+const defaultState=()=>({v:1, updatedAt:0, days:{}, settings:{name:'TONY', book:'Талеб — Одураченные случайностью', tracker:'', gym:[1,3,5], rewards:'', gistId:''}});
+let S=load();
+function load(){try{const s=JSON.parse(localStorage.getItem(LS_KEY)); if(s&&s.v===1){return Object.assign(defaultState(),s,{settings:Object.assign(defaultState().settings,s.settings||{})});}}catch(e){} return defaultState();}
+function save(push=true){S.updatedAt=Date.now(); localStorage.setItem(LS_KEY,JSON.stringify(S)); if(push) schedulePush();}
+
+/* ==========================================================
+   DATES
+   ========================================================== */
+const pad=n=>String(n).padStart(2,'0');
+const fmt=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const parse=s=>{const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d);};
+const addDays=(s,n)=>{const d=parse(s);d.setDate(d.getDate()+n);return fmt(d);};
+const dow=s=>{const d=parse(s).getDay();return d===0?7:d;}; // 1..7
+const monday=s=>addDays(s,-(dow(s)-1));
+const todayStr=()=>window.__today||fmt(new Date());
+const RU_D=['','пн','вт','ср','чт','пт','сб','вс'];
+const RU_M=['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'];
+const phaseOf=s=>CFG.phases.find(p=>s>=p.from&&s<=p.to)||null;
+
+/* ==========================================================
+   SCHEDULE
+   ========================================================== */
+function questsFor(date){
+  const ph=phaseOf(date); if(!ph) return [];
+  const d=dow(date), gymDay=S.settings.gym.includes(d);
+  return CFG.quests.filter(q=>{
+    if(!q.phases.includes(ph.id)) return false;
+    if(!q.days.includes(d)) return false;
+    if(q.from&&date<q.from) return false;
+    if(q.to&&date>q.to) return false;
+    if(q.gym&&!gymDay) return false;
+    if(q.nogym&&gymDay) return false;
+    return true;
+  }).map(q=>{
+    const c={...q};
+    // gym days: shorter ENG-2, no rotation except out-post
+    if(gymDay&&(c.id==='eng2')) c.min=20; else if(c.id==='eng2') c.min=30;
+    c.title=c.title.replace('{book}',S.settings.book||'книга');
+    c.url=(c.url||'').replace('{tracker}',S.settings.tracker||'');
+    return c;
+  });
+}
+const dayRec=date=>S.days[date]||{q:{}};
+const doneCount=(date,qs)=> (qs||questsFor(date)).filter(q=>dayRec(date).q[q.id]?.done).length;
+function dayStatus(date,today){
+  // returns 'future' | 'closed' | 'full' | 'miss' | 'free' | 'open'
+  const qs=questsFor(date); const d=dow(date);
+  if(date<CFG.start) return 'free';
+  if(d===7){ return doneCount(date,qs)>0?'closed':'free'; }
+  const active=qs.filter(q=>!q.passive);
+  if(!active.length) return 'free';
+  const n=doneCount(date,qs);
+  const need=Math.min(2,active.length);
+  if(n>=need){ const allActive=active.every(q=>dayRec(date).q[q.id]?.done); return allActive?'full':'closed'; }
+  if(date<today) return 'miss';
+  if(date===today) return 'open';
+  return 'future';
+}
+
+/* ==========================================================
+   DERIVED: streak, discipline, stats, freezes
+   ========================================================== */
+function derive(){
+  const today=todayStr();
+  const from=CFG.start; const days=[];
+  for(let d=from; d<=today; d=addDays(d,1)) days.push(d);
+  const sess={ENG:0,DATA:0,STA:0,PROD:0,PSY:0,PHY:0};
+  let unfrozenMiss=0, perfectWeeks=0; const frozen=new Set();
+  const weeks={};
+  days.forEach(d=>{ const w=monday(d); (weeks[w]=weeks[w]||[]).push(d);
+    const qs=questsFor(d); qs.forEach(q=>{ if(dayRec(d).q[q.id]?.done&&q.track) sess[q.track]++; });
+  });
+  Object.entries(weeks).forEach(([w,list])=>{
+    let freezeUsed=false, closedCount=0, considered=0;
+    list.forEach(d=>{ const st=dayStatus(d,today); if(dow(d)===7||st==='free') return;
+      if(st==='closed'||st==='full'){closedCount++; considered++;}
+      else if(st==='miss'){ considered++; if(!freezeUsed){freezeUsed=true;frozen.add(d);} else unfrozenMiss++; }
+    });
+    // perfect week: every scheduled weekday closed (only for completed weeks)
+    const weekEnd=addDays(w,6);
+    if(weekEnd<today && considered>0 && closedCount===considered) perfectWeeks++;
+  });
+  const dis=Math.max(0,Math.min(99,CFG.disBase-3*unfrozenMiss+perfectWeeks));
+  const stats={}; Object.keys(sess).forEach(k=>stats[k]=Math.min(99,Math.round(CFG.base+sess[k]*CFG.gain[k])));
+  const avg=Object.values(stats).reduce((a,b)=>a+b,0)/6;
+  const rating=Math.round(avg*0.8+dis*0.2);
+  // streak: walk back from today
+  let streak=0; let d=today;
+  const stToday=dayStatus(today,today);
+  if(!(stToday==='closed'||stToday==='full'||dow(today)===7)) d=addDays(today,-1);
+  while(d>=CFG.start){ const st=dayStatus(d,today);
+    if(st==='closed'||st==='full'){streak++;}
+    else if(dow(d)===7||st==='free'||frozen.has(d)){ /* neutral */ }
+    else break;
+    d=addDays(d,-1);
+  }
+  const tier=[...CFG.tiers].reverse().find(t=>rating>=t.min);
+  return {today,sess,stats,dis,rating,streak,frozen,tier,unfrozenMiss,perfectWeeks};
+}
+
+/* ==========================================================
+   RENDER: quests
+   ========================================================== */
+const $=s=>document.querySelector(s);
+const timers={}; // id -> {end, iv}
+function renderTop(D){
+  const t=D.today, ph=phaseOf(t), d=parse(t);
+  $('#phaseLabel').textContent=ph?ph.label:'Вне плана';
+  $('#dateLabel').textContent=`${RU_D[dow(t)]}, ${d.getDate()} ${RU_M[d.getMonth()]}`;
+  const gymDay=S.settings.gym.includes(dow(t));
+  const type=dow(t)===7?'Воскресенье · только чек-ин':dow(t)===6?'Суббота · глубокий блок':gymDay?'День зала · короткая программа':'Без зала · полная программа';
+  const qs=questsFor(t); const mins=qs.reduce((a,q)=>a+q.min,0);
+  $('#dayTypeLabel').textContent=`${type} · ~${mins} мин`;
+  $('#streakPill').textContent=`🔥 ${D.streak}`;
+  $('#disPill').textContent=`DIS ${D.dis}`;
+  $('#disPill').className='pill'+(D.dis<60?' red':'');
+  $('#questCount').textContent=`${doneCount(t,qs)}/${qs.length}`;
+}
+function renderQuests(D){
+  const t=D.today, qs=questsFor(t), rec=dayRec(t);
+  const host=$('#questList'); host.innerHTML='';
+  if(!qs.length){host.innerHTML='<div class="empty">На сегодня квестов нет. Это либо воскресенье до 24 авг, либо ты вышел за план — открой настройки.</div>';return;}
+  const order=q=>q.passive?1:0;
+  [...qs].sort((a,b)=>order(a)-order(b)).forEach(q=>{
+    const r=rec.q[q.id]||{}; const tc=CFG.tracks[q.track]?.color||'var(--muted)';
+    const el=document.createElement('div'); el.className='quest'+(r.done?' done':'')+(q.passive?' passive':''); el.style.setProperty('--tc',tc);
+    const tm=timers[q.id]; const left=tm?Math.max(0,Math.round((tm.end-Date.now())/1000)):q.min*60;
+    const mmss=`${pad(Math.floor(left/60))}:${pad(left%60)}`;
+    el.innerHTML=`
+      <div class="head">
+        <button class="chk ${r.done?'on':''}" data-act="toggle" data-id="${q.id}" aria-label="высидел">${r.done?'✓':''}</button>
+        <div class="grow">
+          <div class="track">${q.track||'ЧЕК-ИН'} ${q.min?`· ${q.min} мин`:''}</div>
+          <div class="title">${q.title}</div>
+          ${q.meta?`<div class="meta">${q.meta}</div>`:''}
+        </div>
+      </div>
+      ${q.passive?'':`<div class="acts">
+        ${q.url?`<a class="btn primary" href="${q.url}" target="_blank" rel="noopener" data-act="open" data-id="${q.id}">Открыть →</a>`:''}
+        <button class="btn ghost" data-act="timer" data-id="${q.id}"><span class="timer ${tm?'run':''}" id="tm-${q.id}">${mmss}</span></button>
+        ${r.done?'':`<button class="btn ok sm" data-act="done" data-id="${q.id}">Высидел</button>`}
+      </div>
+      <div class="note"><input data-act="note" data-id="${q.id}" placeholder="1 строка: что понял / как применить" value="${(r.note||'').replace(/"/g,'&quot;')}"></div>`}
+    `;
+    host.appendChild(el);
+  });
+}
+function setDone(id,val){const t=todayStr(); S.days[t]=S.days[t]||{q:{}}; S.days[t].q[id]=Object.assign(S.days[t].q[id]||{},{done:val,at:Date.now()}); if(!val) delete S.days[t].q[id].done; save(); renderAll(); if(val) toast('Сессия засчитана');}
+function setNote(id,note){const t=todayStr(); S.days[t]=S.days[t]||{q:{}}; S.days[t].q[id]=Object.assign(S.days[t].q[id]||{},{note}); save(); }
+function toggleTimer(id,min){
+  if(timers[id]){clearInterval(timers[id].iv); delete timers[id]; renderAll(); return;}
+  const end=Date.now()+min*60*1000;
+  timers[id]={end, iv:setInterval(()=>{
+    const left=Math.max(0,Math.round((end-Date.now())/1000)); const el=$('#tm-'+id);
+    if(el) el.textContent=`${pad(Math.floor(left/60))}:${pad(left%60)}`;
+    if(left<=0){clearInterval(timers[id].iv); delete timers[id]; beep(); toast('Время вышло — отметь «Высидел»'); renderAll();}
+  },500)};
+  renderAll();
+}
+function beep(){try{const a=new (window.AudioContext||window.webkitAudioContext)();const o=a.createOscillator();const g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=880;g.gain.value=.05;o.start();setTimeout(()=>{o.stop();a.close();},350);}catch(e){}}
+
+/* ==========================================================
+   RENDER: week
+   ========================================================== */
+function renderWeek(D,weekStart){
+  const t=D.today; const w=weekStart||monday(t);
+  const dots=$('#weekDots'); dots.innerHTML='';
+  for(let i=0;i<7;i++){ const d=addDays(w,i); const st=dayStatus(d,t); const fro=D.frozen.has(d);
+    const el=document.createElement('div'); el.className='dot '+(fro?'frozen':st)+(d===t?' today':'');
+    const n=doneCount(d); el.innerHTML=`<div class="d">${st==='future'?'':(fro?'❄':(st==='free'?'·':n))}</div><div class="l">${RU_D[dow(d)]}</div>`;
+    dots.appendChild(el);
+  }
+  // planned vs done per track this week
+  const plan={},done={};
+  for(let i=0;i<7;i++){const d=addDays(w,i); questsFor(d).forEach(q=>{ if(!q.track) return; plan[q.track]=(plan[q.track]||0)+1; if(dayRec(d).q[q.id]?.done) done[q.track]=(done[q.track]||0)+1; });}
+  const bars=$('#weekBars'); bars.innerHTML='';
+  Object.keys(CFG.tracks).forEach(k=>{ if(!plan[k]) return; const p=plan[k],dn=done[k]||0; const pct=Math.min(100,Math.round(dn/p*100));
+    const el=document.createElement('div'); el.className='bar'; el.style.setProperty('--tc',CFG.tracks[k].color);
+    el.innerHTML=`<div class="k" style="color:${CFG.tracks[k].color}">${k}</div><div class="t"><i style="width:${pct}%"></i></div><div class="v">${dn}/${p}</div>`; bars.appendChild(el); });
+}
+
+/* ==========================================================
+   RENDER: card
+   ========================================================== */
+function renderCard(D){
+  const tier=D.tier; const host=$('#futCard');
+  const st=D.stats;
+  host.innerHTML=`<div class="fut ${tier.c}"><div class="shine"></div>
+    <div class="rating">${D.rating}</div><div class="tier">${tier.n}</div>
+    <div class="dis"><b>${D.dis}</b><span>DIS</span></div>
+    <div class="name">${(S.settings.name||'TONY').toUpperCase()}</div>
+    <div class="role">Growth PM · маршрут А</div>
+    <div class="grid">
+      ${['ENG','DATA','STA','PROD','PSY','PHY'].map(k=>`<div class="st"><b>${st[k]}</b><span>${k}</span></div>`).join('')}
+    </div>
+    <div class="foot"><span>🔥 стрик ${D.streak}</span><span>сессий: ${Object.values(D.sess).reduce((a,b)=>a+b,0)}</span><span>пропусков: ${D.unfrozenMiss}</span></div>
+  </div>`;
+  const tiers=$('#tiers'); tiers.innerHTML=CFG.tiers.map(tr=>`<div class="${tr.c===tier.c?'cur':''}">${tr.n}<br><b>${tr.min||'—'}</b></div>`).join('');
+  const ph=phaseOf(D.today); const box=$('#semesterBox');
+  if(ph){ const goals=CFG.semesterGoals[ph.id]||[]; const total=(parse(ph.to)-parse(ph.from))/864e5+1; const done=(parse(D.today)-parse(ph.from))/864e5+1; const pct=Math.round(Math.max(0,Math.min(100,done/total*100)));
+    box.innerHTML=`<div class="row between"><b>${ph.label}</b><span class="muted small">${ph.from.slice(5)} → ${ph.to.slice(5)} · ${pct}%</span></div>
+    <div class="bar" style="grid-template-columns:1fr;margin:8px 0 10px"><div class="t"><i style="width:${pct}%;background:var(--gold)"></i></div></div>
+    <ul style="margin:0;padding-left:18px;font-size:13px;color:var(--muted);line-height:1.55">${goals.map(g=>`<li>${g}</li>`).join('')}</ul>
+    ${S.settings.rewards?`<div class="small" style="margin-top:10px;white-space:pre-line;color:var(--gold)">${S.settings.rewards}</div>`:''}`;
+  } else box.innerHTML='<span class="muted small">Вне плана.</span>';
+}
+
+/* ==========================================================
+   EXPORT
+   ========================================================== */
+function exportWeek(prev){
+  const D=derive(); const t=D.today; const w=addDays(monday(t),prev?-7:0);
+  const lines=[`ОТЧЁТ НЕДЕЛИ ${w} → ${addDays(w,6)}  (Маршрут А · ${phaseOf(t)?.label||''})`,`Стрик: ${D.streak} · DIS: ${D.dis} · Рейтинг: ${D.rating} (${D.tier.n})`,''];
+  const plan={},done={},mins={};
+  for(let i=0;i<7;i++){ const d=addDays(w,i); const st=dayStatus(d,t); const fro=D.frozen.has(d); const qs=questsFor(d);
+    const tags=qs.filter(q=>dayRec(d).q[q.id]?.done).map(q=>q.track||'CHK');
+    lines.push(`${RU_D[dow(d)]} ${d.slice(5)}: ${fro?'❄ заморозка':st==='full'?'✓✓ полный':st==='closed'?'✓ закрыт':st==='miss'?'✗ пропуск':st==='free'?'—':st==='open'?'… открыт':'·'}  [${tags.join(' ')}]`);
+    qs.forEach(q=>{ if(!q.track) return; plan[q.track]=(plan[q.track]||0)+1; if(dayRec(d).q[q.id]?.done){done[q.track]=(done[q.track]||0)+1; mins[q.track]=(mins[q.track]||0)+q.min;} });
+    qs.forEach(q=>{ const n=dayRec(d).q[q.id]?.note; if(n) lines.push(`   • ${q.track||'CHK'}: ${n}`); });
+  }
+  lines.push('','ПО ТРЕКАМ (сессий сделано/план · минут):');
+  Object.keys(CFG.tracks).forEach(k=>{ if(plan[k]) lines.push(`${k}: ${done[k]||0}/${plan[k]} · ${mins[k]||0} мин`); });
+  lines.push('',`Статы: ${Object.entries(D.stats).map(([k,v])=>k+' '+v).join(' · ')}`,'',
+  'Вопросы к Claude: где отстаю, что сдвигаем, что режем по cut order.');
+  return lines.join('\n');
+}
+
+/* ==========================================================
+   GIST SYNC
+   ========================================================== */
+const GIST_FILE='tony-quests.json';
+let pushT=null, syncBusy=false;
+function setSync(state,label){const d=$('#syncDot'); d.className='syncdot '+(state||''); $('#syncLabel').textContent=label;}
+function token(){return localStorage.getItem(LS_TOKEN)||'';}
+function schedulePush(){ if(!token()) return; clearTimeout(pushT); pushT=setTimeout(()=>sync(true),1500); }
+function mergeState(remote){
+  if(!remote||remote.v!==1) return;
+  const out=S;
+  Object.entries(remote.days||{}).forEach(([d,rec])=>{ out.days[d]=out.days[d]||{q:{}};
+    Object.entries(rec.q||{}).forEach(([qid,r])=>{ const cur=out.days[d].q[qid];
+      if(!cur) out.days[d].q[qid]={...r};
+      else { const newer=(r.at||0)>(cur.at||0)?r:cur; const older=newer===r?cur:r; out.days[d].q[qid]={...older,...newer}; if(cur.done||r.done) out.days[d].q[qid].done=true; if(!out.days[d].q[qid].note&&(cur.note||r.note)) out.days[d].q[qid].note=cur.note||r.note; }
+    }); });
+  if((remote.updatedAt||0)>(S.updatedAt||0)){ const gid=S.settings.gistId; S.settings=Object.assign(S.settings,remote.settings||{}); if(gid) S.settings.gistId=gid; }
+}
+async function sync(silent){
+  const tk=token(); if(!tk){ if(!silent) toast('Нет токена — вставь в настройках'); return; }
+  if(syncBusy) return; syncBusy=true; setSync('busy','синк…');
+  const H={'Authorization':'Bearer '+tk,'Accept':'application/vnd.github+json','Content-Type':'application/json'};
+  try{
+    let gid=S.settings.gistId;
+    if(gid){
+      const r=await fetch('https://api.github.com/gists/'+gid,{headers:H});
+      if(r.status===404){ gid=''; } else if(!r.ok) throw new Error('GET '+r.status);
+      else { const g=await r.json(); const f=g.files&&g.files[GIST_FILE]; if(f&&f.content){ try{ mergeState(JSON.parse(f.content)); }catch(e){} } }
+    }
+    S.updatedAt=Date.now(); localStorage.setItem(LS_KEY,JSON.stringify(S));
+    const body=JSON.stringify({description:'Квесты · Маршрут А (auto-sync)',public:false,files:{[GIST_FILE]:{content:JSON.stringify(S)}}});
+    let r2;
+    if(gid) r2=await fetch('https://api.github.com/gists/'+gid,{method:'PATCH',headers:H,body});
+    else r2=await fetch('https://api.github.com/gists',{method:'POST',headers:H,body});
+    if(!r2.ok) throw new Error((gid?'PATCH ':'POST ')+r2.status);
+    const g2=await r2.json(); if(!gid){ S.settings.gistId=g2.id; localStorage.setItem(LS_KEY,JSON.stringify(S)); $('#sGist').value=g2.id; }
+    setSync('ok','синк '+new Date().toTimeString().slice(0,5)); if(!silent) toast('Синхронизировано');
+    renderAll(false);
+  }catch(e){ setSync('err','ошибка синка'); if(!silent) toast('Ошибка: '+e.message); console.warn(e); }
+  finally{ syncBusy=false; }
+}
+
+/* ==========================================================
+   SETTINGS UI
+   ========================================================== */
+function renderSettings(){
+  $('#sName').value=S.settings.name||''; $('#sBook').value=S.settings.book||''; $('#sTracker').value=S.settings.tracker||'';
+  $('#sRewards').value=S.settings.rewards||''; $('#sGist').value=S.settings.gistId||''; $('#sToken').value=token();
+  const gd=$('#gymDays'); gd.innerHTML='';
+  for(let i=1;i<=6;i++){ const b=document.createElement('button'); b.className='btn sm '+(S.settings.gym.includes(i)?'primary':''); b.textContent=RU_D[i]; b.dataset.day=i; b.onclick=()=>{ const s=new Set(S.settings.gym); s.has(i)?s.delete(i):s.add(i); S.settings.gym=[...s].sort(); renderSettings(); }; gd.appendChild(b); }
+}
+$('#btnSaveSettings').onclick=()=>{ S.settings.name=$('#sName').value.trim()||'TONY'; S.settings.book=$('#sBook').value.trim(); S.settings.tracker=$('#sTracker').value.trim(); S.settings.rewards=$('#sRewards').value; save(); renderAll(); toast('Сохранено'); };
+$('#btnSyncNow').onclick=()=>{ const tk=$('#sToken').value.trim(); if(tk) localStorage.setItem(LS_TOKEN,tk); const gid=$('#sGist').value.trim(); S.settings.gistId=gid; save(false); sync(false); };
+$('#btnCopyGist').onclick=()=>copy(S.settings.gistId||'', 'Gist ID скопирован');
+$('#btnExport').onclick=()=>{ const t=exportWeek(false); $('#exportBox').style.display='block'; $('#exportBox').value=t; copy(t,'Отчёт скопирован'); };
+$('#btnExportPrev').onclick=()=>{ const t=exportWeek(true); $('#exportBox').style.display='block'; $('#exportBox').value=t; copy(t,'Отчёт скопирован'); };
+$('#btnBackup').onclick=()=>{ const t=JSON.stringify(S); $('#backupBox').style.display='block'; $('#backupBox').value=t; copy(t,'Бэкап скопирован'); };
+$('#btnRestore').onclick=()=>{ const b=$('#backupBox'); if(b.style.display==='none'){ b.style.display='block'; b.value=''; b.placeholder='Вставь JSON и нажми ещё раз'; b.focus(); return; } try{ const s=JSON.parse(b.value); if(s.v!==1) throw 0; S=Object.assign(defaultState(),s); save(); renderAll(); toast('Восстановлено'); }catch(e){ toast('Это не похоже на бэкап'); } };
+async function copy(t,msg){ try{ await navigator.clipboard.writeText(t); toast(msg); }catch(e){ toast('Скопируй вручную из поля'); } }
+
+/* ==========================================================
+   EVENTS / NAV / TOAST
+   ========================================================== */
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]'); if(!b) return;
+  const id=b.dataset.id, act=b.dataset.act;
+  if(act==='toggle'){ const r=dayRec(todayStr()).q[id]; setDone(id,!(r&&r.done)); }
+  if(act==='done'){ setDone(id,true); }
+  if(act==='timer'){ const q=questsFor(todayStr()).find(x=>x.id===id); if(q) toggleTimer(id,q.min||25); }
+});
+document.addEventListener('change',e=>{ const i=e.target.closest('[data-act="note"]'); if(i) setNote(i.dataset.id,i.value.trim()); });
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{ document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('on',x===b)); document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+b.dataset.v)); if(b.dataset.v==='settings') renderSettings(); window.scrollTo(0,0); });
+let toastT; function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('on'); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('on'),1800); }
+
+function renderAll(){ const D=derive(); renderTop(D); renderQuests(D); renderWeek(D); renderCard(D); }
+renderAll(); renderSettings();
+if(token()){ sync(true); } else setSync('', 'только это устройство');
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden){ renderAll(); if(token()) sync(true); } });
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+</script>
+</body>
+</html>

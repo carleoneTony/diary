@@ -1,0 +1,12 @@
+{
+  "name": "Квесты · Маршрут А",
+  "short_name": "Квесты",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0F1420",
+  "theme_color": "#0F1420",
+  "icons": [
+    { "src": "icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
